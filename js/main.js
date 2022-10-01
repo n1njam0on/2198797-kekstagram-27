@@ -1,6 +1,6 @@
 function getRundomNumber(min, max){
     if(min < 0 || max < 0 || min > max){
-        return NaN
+        return NaN;
     }
     return Math.random() * (max - min) + Number(min);
 }
