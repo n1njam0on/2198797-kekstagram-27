@@ -1,7 +1,7 @@
 
 const PHOTOS_NUMBER = 25;
 
-function getRandomPositiveInteger (a, b) {
+const getRandomPositiveInteger = (a, b) => {
   if (a < 0 || b < 0) {
     return NaN;
   }
@@ -10,18 +10,18 @@ function getRandomPositiveInteger (a, b) {
 
   const result = Math.random() * (upper - lower + 1) + lower;
   return Math.floor(result);
-}
+};
 
 
-function getLengthCompare(str, maxLength){
+const getLengthCompare = (str, maxLength) => {
   if(typeof maxLength !== 'number'){
     return NaN;
   }
 
   return String(str).length <= maxLength;
-}
+};
 
-function getUniqNumberArray(arraySize = PHOTOS_NUMBER, maxNumber = PHOTOS_NUMBER){
+const getUniqNumberArray = (arraySize = PHOTOS_NUMBER, maxNumber = PHOTOS_NUMBER) => {
 
   if(arraySize > maxNumber){
     const temp = arraySize;
@@ -34,9 +34,9 @@ function getUniqNumberArray(arraySize = PHOTOS_NUMBER, maxNumber = PHOTOS_NUMBER
     idSet.add(getRandomPositiveInteger(1, maxNumber));
   }
   const idArray = [];
-  idSet.forEach((v) => idArray.push(v));
+  idSet.forEach((value) => idArray.push(value));
   return idArray;
-}
+};
 
 
 const MESSAGES = [
@@ -65,7 +65,7 @@ const MESSAGE_ID_ARRAY = getUniqNumberArray(PHOTOS_NUMBER, 1000);
 const PHOTO_ID_ARRAY = getUniqNumberArray();
 
 
-const getComment = ()=> {
+const getComment = () => {
   let message = MESSAGES[getRandomPositiveInteger(0, MESSAGES.length - 1)];
   if(getRandomPositiveInteger(0, 1)){
     message = `${MESSAGES[getRandomPositiveInteger(0, MESSAGES.length - 1)] }\n${ MESSAGES[getRandomPositiveInteger(0, MESSAGES.length - 1)]}`;
@@ -79,8 +79,7 @@ const getComment = ()=> {
 };
 
 
-const getPhotoInfo = ()=> {
-
+const getPhotoInfo = () => {
   const id = PHOTO_ID_ARRAY.pop();
   return {
     id: id,
@@ -91,7 +90,5 @@ const getPhotoInfo = ()=> {
   };
 };
 
-const photosCollection = Array.from({length: PHOTOS_NUMBER}, getPhotoInfo);
+const photoCollection = Array.from({length: PHOTOS_NUMBER}, getPhotoInfo);
 
-console.log(photosCollection);
-console.log(getLengthCompare('Hello!', 5));
