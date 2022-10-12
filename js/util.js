@@ -1,4 +1,4 @@
-const getRandomPositiveInteger = (a, b) => {
+export const getRandomPositiveInteger = (a, b) => {
   if (a < 0 || b < 0) {
     return NaN;
   }
@@ -18,5 +18,4 @@ export const getLengthCompare = (str, maxLength) => {
   return String(str).length <= maxLength;
 };
 
-export{getRandomPositiveInteger };
 
