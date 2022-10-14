@@ -68,5 +68,4 @@ const MESSAGES = [
 
 export const photoCollection = Array.from({length: PHOTOS_NUMBER}, getPhotoInfo);
 
-console.log(photoCollection);
 
