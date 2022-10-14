@@ -1,9 +1,8 @@
-import {getRandomPositiveInteger} './util.js';
+import { getRandomPositiveInteger } from './util.js';
 
 const PHOTOS_NUMBER = 25;
 
 const getUniqNumberArray = (arraySize = PHOTOS_NUMBER, maxNumber = PHOTOS_NUMBER) => {
-
     if(arraySize > maxNumber){
       const temp = arraySize;
       arraySize = maxNumber;
@@ -46,7 +45,7 @@ const MESSAGES = [
   
   
   const getComment = () => {
-    message = Array.from({length:getRandomPositiveInteger(1, 2)}, () => MESSAGES[getRandomPositiveInteger(0, MESSAGES.length - 1)]).join('\n');
+    let message = Array.from({length:getRandomPositiveInteger(1, 2)}, () => MESSAGES[getRandomPositiveInteger(0, MESSAGES.length - 1)]).join('\n');
     return{
       id: MESSAGE_ID_ARRAY.pop(),
       avatar: `img/avatar-${getRandomPositiveInteger(0, 6)}.svg`,
@@ -67,8 +66,7 @@ const MESSAGES = [
     };
   };
 
-const photoCollection = Array.from({length: PHOTOS_NUMBER}, getPhotoInfo);
+export const photoCollection = Array.from({length: PHOTOS_NUMBER}, getPhotoInfo);
+
 console.log(photoCollection);
- 
- 
 
