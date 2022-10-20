@@ -1,6 +1,7 @@
 import { getRandomPositiveInteger } from './util.js';
 
 const PHOTOS_NUMBER = 25;
+const MAX_COMMENTS_NUMBER = 5;
 
 const getUniqNumberArray = (arraySize = PHOTOS_NUMBER, maxNumber = PHOTOS_NUMBER) => {
     if(arraySize > maxNumber){
@@ -40,7 +41,7 @@ const MESSAGES = [
   ];
   
   
-  const MESSAGE_ID_ARRAY = getUniqNumberArray(PHOTOS_NUMBER, 1000);
+  const MESSAGE_ID_ARRAY = getUniqNumberArray(PHOTOS_NUMBER * MAX_COMMENTS_NUMBER, 1000);
   const PHOTO_ID_ARRAY = getUniqNumberArray();
   
   
@@ -62,10 +63,14 @@ const MESSAGES = [
       url: `photos/${id}.jpg`,
       description: `Фотография №${id} `,
       likes: getRandomPositiveInteger(15,100),
-      comments: getComment(),
+      comments: Array.from({length: getRandomPositiveInteger(1, MAX_COMMENTS_NUMBER)}, getComment),
     };
   };
+ 
+export const getPhotoCollection = (number = PHOTOS_NUMBER) => {
+  return (Array.from({length: number}, getPhotoInfo));
+};
 
-export const photoCollection = Array.from({length: PHOTOS_NUMBER}, getPhotoInfo);
+
 
 
