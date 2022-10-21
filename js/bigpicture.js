@@ -1,19 +1,17 @@
-import { photoCollection } from './render.js';
+import { similarCards } from './render.js';
 
 const bigPicture = document.querySelector('.big-picture');
 
 
 export const renderBigPicture = (id) => {
   bigPicture.classList.remove('hidden');
-  const photoData = photoCollection.find(element => element.id === id);
+  const photoData = similarCards.find((element) => element.id === id);
 
-  //Insert photo information
   bigPicture.querySelector('.big-picture__img').querySelector('img').src = photoData.url;
   bigPicture.querySelector('.likes-count').textContent = photoData.likes;
   bigPicture.querySelector('.comments-count').textContent = photoData.comments.length;
   bigPicture.querySelector('.social__caption').textContent = photoData.description;
 
-  //Insert comments
   const commentsBlock = bigPicture.querySelector('.social__comments');
   commentsBlock.innerHTML = '';
   const picturesFragment = document.createDocumentFragment();
@@ -37,12 +35,10 @@ export const renderBigPicture = (id) => {
   });
   commentsBlock.appendChild(picturesFragment);
 
-  //Disable message counter and scrolling
   bigPicture.querySelector('.social__comment-count').classList.add('hidden');
   bigPicture.querySelector('.comments-loader').classList.add('hidden');
   document.querySelector('body').classList.add('modal-open');
 
-  //Close button for big image
   const closeButton = bigPicture.querySelector('.big-picture__cancel');
   closeButton.addEventListener('click', () => {
     bigPicture.classList.add('hidden');
@@ -55,7 +51,4 @@ export const renderBigPicture = (id) => {
       document.querySelector('body').classList.remove('modal-open');
     }
   };
-
-
-
 };
