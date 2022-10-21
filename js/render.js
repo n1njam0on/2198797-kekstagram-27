@@ -5,7 +5,7 @@ const randomUserPictureTemplate = document.querySelector('#picture')
   .content
   .querySelector('.picture');
 
-const photoCollection = getPhotoCollection();
+export const photoCollection = getPhotoCollection();
 
 const picturesFragment = document.createDocumentFragment();
 

@@ -49,7 +49,7 @@ const MESSAGES = [
     let message = Array.from({length:getRandomPositiveInteger(1, 2)}, () => MESSAGES[getRandomPositiveInteger(0, MESSAGES.length - 1)]).join('\n');
     return{
       id: MESSAGE_ID_ARRAY.pop(),
-      avatar: `img/avatar-${getRandomPositiveInteger(0, 6)}.svg`,
+      avatar: `img/avatar-${getRandomPositiveInteger(1, 6)}.svg`,
       message: message,
       name: NAMES[getRandomPositiveInteger(0, NAMES.length - 1)],
     };
