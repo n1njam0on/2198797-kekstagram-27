@@ -18,4 +18,5 @@ export const getLengthCompare = (str, maxLength) => {
   return String(str).length <= maxLength;
 };
 
+export const isEscapeKey = (evt) => evt.key === 'Escape';
 

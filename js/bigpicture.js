@@ -1,7 +1,23 @@
 import { similarCards } from './render.js';
+import { isEscapeKey } from './util.js';
 
 const bigPicture = document.querySelector('.big-picture');
+const closeButton = bigPicture.querySelector('.big-picture__cancel');
 
+const onBigPictureEscKeydown = (evt) => {
+  if(isEscapeKey(evt)){
+    evt.preventDefault();
+    bigPicture.classList.add('hidden');
+    document.querySelector('body').classList.remove('modal-open');
+    document.removeEventListener('keydown', onBigPictureEscKeydown);
+  }
+};
+
+const onBigPictureCloseButton = () => {
+  bigPicture.classList.add('hidden');
+  document.querySelector('body').classList.remove('modal-open');
+  closeButton.removeEventListener('click', onBigPictureCloseButton);
+};
 
 export const renderBigPicture = (id) => {
   bigPicture.classList.remove('hidden');
@@ -39,16 +55,6 @@ export const renderBigPicture = (id) => {
   bigPicture.querySelector('.comments-loader').classList.add('hidden');
   document.querySelector('body').classList.add('modal-open');
 
-  const closeButton = bigPicture.querySelector('.big-picture__cancel');
-  closeButton.addEventListener('click', () => {
-    bigPicture.classList.add('hidden');
-    document.querySelector('body').classList.remove('modal-open');
-  });
-
-  document.onkeydown = (evt) => {
-    if(evt.keyCode === 27){
-      bigPicture.classList.add('hidden');
-      document.querySelector('body').classList.remove('modal-open');
-    }
-  };
+  closeButton.addEventListener('click', onBigPictureCloseButton);
+  document.addEventListener('keydown', onBigPictureEscKeydown);
 };
