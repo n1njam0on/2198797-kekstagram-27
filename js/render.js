@@ -1,29 +1,18 @@
-import { getPhotoCollection } from './data.js';
+import {CreateCardCollection} from './data.js';
 
-const pictureContainer = document.querySelector('.pictures');
-const randomUserPictureTemplate = document.querySelector('#picture')
-  .content
-  .querySelector('.picture');
+const userPictureList = document.querySelector('.pictures');
+const similarCardTemplate = document.querySelector('#picture').content.querySelector('a');
 
-const photoCollection = getPhotoCollection();
+export const similarCards = CreateCardCollection();
 
-const picturesFragment = document.createDocumentFragment();
+const pictureListFragment = document.createDocumentFragment();
 
-photoCollection.forEach(({url, likes, comments}) => {
-  const clonePictureTemplate = randomUserPictureTemplate.cloneNode(true);
-
-  clonePictureTemplate.querySelector('.picture__img').src = url;
-
-  const likesTxt = document.createTextNode(likes);
-  clonePictureTemplate.querySelector('.picture__likes').appendChild(likesTxt);
-
-
-  const commentsTxt = document.createTextNode(comments.length);
-  clonePictureTemplate.querySelector('.picture__comments').appendChild(commentsTxt);
-
-
-  picturesFragment.appendChild(clonePictureTemplate);
+similarCards.forEach(({url, likes, comments}) => {
+  const cardElement = similarCardTemplate.cloneNode(true);
+  cardElement.querySelector('img').src = url;
+  cardElement.querySelector('.picture__likes').textContent = likes;
+  cardElement.querySelector('.picture__comments').textContent = comments.length;
+  userPictureList.append(cardElement);
 });
 
-pictureContainer.appendChild(picturesFragment);
-
+userPictureList.append(pictureListFragment);
