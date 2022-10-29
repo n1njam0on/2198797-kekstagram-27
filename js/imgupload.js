@@ -1,4 +1,9 @@
-import { isEscapeKey } from './util.js';
+import { isEscapeKey, validHashTag } from './util.js';
+
+const COMMENT_MAX_LENGTH = 140;
+const HASHTAG_LENGTH_ERROR_MESSAGE = 'хэштег должен быть длиной от 1 до 19 символов';
+const HASHTAG_CONTENT_ERROR_MESSAGE = 'начинаться с символа #, содержать только букы и цифры';
+const COMMENT_ERROR_MESSAGE = 'длина комментария не должна привышать 140 символов';
 
 const uploadForm = document.querySelector('.img-upload__form');
 const imageEditForm = document.querySelector('.img-upload__overlay');
@@ -17,32 +22,19 @@ const pristine = new Pristine(uploadForm,{
   errorTextClass: 'img-upload__text__error'
 });
 
-const validHashTag = (value) => {
-  const hashtagsList = value.split(/(?=#)/g);
-  const hashtagCondition = /^#[a-zа-я0-9]{1,19}$/i;
-  if(hashtagsList[0] === ''){
-    return true;
-  }
-  for (let i = 0; i < hashtagsList.length; i++){
-    if(!hashtagCondition.test(hashtagsList[i])){
-      return false;
-    }
-  }
-  return true;
-};
 
-const validCommentField = (value) => value.length <= 140;
+const validCommentField = (value) => value.length <= COMMENT_MAX_LENGTH;
 
 pristine.addValidator(uploadForm.querySelector('.text__hashtags'),
   validHashTag,
-  'Хэштег должен быть длиной от 1 до 19 символов, начинаться с символа #, содержать только букы и цифры', 1, false);
+  `${HASHTAG_LENGTH_ERROR_MESSAGE}, ${HASHTAG_CONTENT_ERROR_MESSAGE}`, 1, false);
 
 pristine.addValidator(uploadForm.querySelector('.text__description'),
   validCommentField,
-  'Длина комментария не должна привышать 140 символов', 2, false);
+  COMMENT_ERROR_MESSAGE, 2, false);
 
 
-const setCommentFieldFocusStatus = () => {
+const changeCommentFieldFocusStatus = () => {
   isCommentFieldOnFocus = isCommentFieldOnFocus ? isCommentFieldOnFocus = false : isCommentFieldOnFocus = true;
   return isCommentFieldOnFocus;
 };
@@ -56,8 +48,8 @@ const onImgUploadEscKeydown = (evt) => {
       imageEditForm.classList.add('hidden');
       document.querySelector('body').classList.remove('modal-open');
       document.removeEventListener('keydown', onImgUploadEscKeydown);
-      commentField.removeEventListener('focus', setCommentFieldFocusStatus);
-      commentField.removeEventListener('blur', setCommentFieldFocusStatus);
+      commentField.removeEventListener('focus', changeCommentFieldFocusStatus);
+      commentField.removeEventListener('blur', changeCommentFieldFocusStatus);
 
     }
   }
@@ -68,8 +60,8 @@ const onImgUploadCloseButton = () => {
   imageEditForm.classList.add('hidden');
   document.querySelector('body').classList.remove('modal-open');
   imageEditForm.removeEventListener('click', onImgUploadCloseButton);
-  commentField.removeEventListener('focus', setCommentFieldFocusStatus);
-  commentField.removeEventListener('blur', setCommentFieldFocusStatus);
+  commentField.removeEventListener('focus', changeCommentFieldFocusStatus);
+  commentField.removeEventListener('blur', changeCommentFieldFocusStatus);
 };
 
 
@@ -83,8 +75,8 @@ export const filllImgUploadForm = () => {
       evt.preventDefault();
     });
 
-    commentField.addEventListener('focus', setCommentFieldFocusStatus);
-    commentField.addEventListener('blur', setCommentFieldFocusStatus);
+    commentField.addEventListener('focus', changeCommentFieldFocusStatus);
+    commentField.addEventListener('blur', changeCommentFieldFocusStatus);
 
     closeButton.addEventListener('click', onImgUploadCloseButton);
     document.addEventListener('keydown', onImgUploadEscKeydown);
