@@ -5,31 +5,30 @@ const HASHTAG_LENGTH_ERROR_MESSAGE = 'хэштег должен быть дли�
 const HASHTAG_CONTENT_ERROR_MESSAGE = 'начинаться с символа #, содержать только букы и цифры';
 const COMMENT_ERROR_MESSAGE = 'длина комментария не должна привышать 140 символов';
 
-const uploadForm = document.querySelector('.img-upload__form');
-const imageEditForm = document.querySelector('.img-upload__overlay');
-const closeButton = uploadForm.querySelector('.img-upload__cancel');
-const commentField = uploadForm.querySelector('.text__description');
-const inputFile = document.querySelector('.img-upload__input');
+const uploadFormNode = document.querySelector('.img-upload__form');
+const imageEditFormNode = document.querySelector('.img-upload__overlay');
+const closeButtonNode = uploadFormNode.querySelector('.img-upload__cancel');
+const commentFieldNode = uploadFormNode.querySelector('.text__description');
+const inputFileNode = document.querySelector('.img-upload__input');
 
 let isCommentFieldOnFocus = false;
 
-const pristine = new Pristine(uploadForm,{
-  classTo: 'img-upload__text',
-  errorClass: 'img-upload__text--invalid',
-  successClass: 'img-upload__text--valid',
-  errorTextParent: 'img-upload__text',
-  errorTextTag: 'span',
-  errorTextClass: 'img-upload__text__error'
+const pristine = new Pristine(uploadFormNode,{
+  classTo: 'img-upload__field-wrapper',
+  errorClass: 'img-upload__field-wrapper--invalid',
+  successClass: 'img-upload__field-wrapper--valid',
+  errorTextParent: 'img-upload__field-wrapper',
+  errorTextClass: 'img-upload__field-wrapper__error'
 });
 
 
 const validCommentField = (value) => value.length <= COMMENT_MAX_LENGTH;
 
-pristine.addValidator(uploadForm.querySelector('.text__hashtags'),
+pristine.addValidator(uploadFormNode.querySelector('.text__hashtags'),
   validHashTag,
   `${HASHTAG_LENGTH_ERROR_MESSAGE}, ${HASHTAG_CONTENT_ERROR_MESSAGE}`, 1, false);
 
-pristine.addValidator(uploadForm.querySelector('.text__description'),
+pristine.addValidator(uploadFormNode.querySelector('.text__description'),
   validCommentField,
   COMMENT_ERROR_MESSAGE, 2, false);
 
@@ -43,42 +42,42 @@ const onImgUploadEscKeydown = (evt) => {
   if(isEscapeKey(evt)){
     evt.preventDefault();
     if(!isCommentFieldOnFocus){
-      inputFile.name = 'filename';
-      uploadForm.reset();
-      imageEditForm.classList.add('hidden');
+      inputFileNode.name = 'filename';
+      uploadFormNode.reset();
+      imageEditFormNode.classList.add('hidden');
       document.querySelector('body').classList.remove('modal-open');
       document.removeEventListener('keydown', onImgUploadEscKeydown);
-      commentField.removeEventListener('focus', changeCommentFieldFocusStatus);
-      commentField.removeEventListener('blur', changeCommentFieldFocusStatus);
+      commentFieldNode.removeEventListener('focus', changeCommentFieldFocusStatus);
+      commentFieldNode.removeEventListener('blur', changeCommentFieldFocusStatus);
 
     }
   }
 };
 
 const onImgUploadCloseButton = () => {
-  uploadForm.reset();
-  imageEditForm.classList.add('hidden');
+  uploadFormNode.reset();
+  imageEditFormNode.classList.add('hidden');
   document.querySelector('body').classList.remove('modal-open');
-  imageEditForm.removeEventListener('click', onImgUploadCloseButton);
-  commentField.removeEventListener('focus', changeCommentFieldFocusStatus);
-  commentField.removeEventListener('blur', changeCommentFieldFocusStatus);
+  imageEditFormNode.removeEventListener('click', onImgUploadCloseButton);
+  commentFieldNode.removeEventListener('focus', changeCommentFieldFocusStatus);
+  commentFieldNode.removeEventListener('blur', changeCommentFieldFocusStatus);
 };
 
 
 export const filllImgUploadForm = () => {
 
-  inputFile.addEventListener('change', () => {
-    imageEditForm.classList.remove('hidden');
+  inputFileNode.addEventListener('change', () => {
+    imageEditFormNode.classList.remove('hidden');
 
 
-    uploadForm.addEventListener('submit', (evt) => {
+    uploadFormNode.addEventListener('submit', (evt) => {
       evt.preventDefault();
     });
 
-    commentField.addEventListener('focus', changeCommentFieldFocusStatus);
-    commentField.addEventListener('blur', changeCommentFieldFocusStatus);
+    commentFieldNode.addEventListener('focus', changeCommentFieldFocusStatus);
+    commentFieldNode.addEventListener('blur', changeCommentFieldFocusStatus);
 
-    closeButton.addEventListener('click', onImgUploadCloseButton);
+    closeButtonNode.addEventListener('click', onImgUploadCloseButton);
     document.addEventListener('keydown', onImgUploadEscKeydown);
   });
 

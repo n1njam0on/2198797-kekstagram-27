@@ -1,7 +1,7 @@
 import { getRandomPositiveInteger } from './util.js';
 
 const PHOTOS_NUMBER = 25;
-const MAX_COMMENTS_NUMBER = 5;
+const MAX_COMMENTS_NUMBER = 15;
 
 const getUniqNumberArray = (arraySize = PHOTOS_NUMBER, maxNumber = PHOTOS_NUMBER) => {
   if(arraySize > maxNumber){
