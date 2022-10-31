@@ -3,9 +3,9 @@ import {renderBigPicture} from './bigpicture.js';
 import {filllImgUploadForm} from './imgupload.js';
 
 
-const picturesContainer = document.querySelector('.pictures');
+const picturesContainerNode = document.querySelector('.pictures');
 
-picturesContainer.addEventListener('click', (evt) => {
+picturesContainerNode.addEventListener('click', (evt) => {
   if(evt.target.tagName === 'IMG'){
     const strArray = evt.target.src.split('/');
     const iden = strArray[strArray.length - 1 ].split('.');
@@ -14,8 +14,8 @@ picturesContainer.addEventListener('click', (evt) => {
 });
 
 
-const uploadStart = document.querySelector('.img-upload__label ');
+const uploadStartNode = document.querySelector('.img-upload__label ');
 
-uploadStart.addEventListener('click', () => {
+uploadStartNode.addEventListener('click', () => {
   filllImgUploadForm();
 });
