@@ -1,5 +1,5 @@
 import { isEscapeKey, validHashTag } from './util.js';
-import { SLIDER_OPTIONS_FOR_CHROME, SLIDER_OPTIONS_FOR_SEPIA, SLIDER_OPTIONS_FOR_MARVIN, SLIDER_OPTIONS_FOR_PHOBOS, SLIDER_OPTIONS_FOR_HEAT } from './slideroptions.js';
+import { SLIDER_OPTIONS_FOR_CHROME, SLIDER_OPTIONS_FOR_SEPIA, SLIDER_OPTIONS_FOR_MARVIN, SLIDER_OPTIONS_FOR_PHOBOS, SLIDER_OPTIONS_FOR_HEAT } from './slider-options.js';
 
 const COMMENT_MAX_LENGTH = 140;
 const HASHTAG_LENGTH_ERROR_MESSAGE = 'хэштег должен быть длиной от 1 до 19 символов';
@@ -9,6 +9,13 @@ const STEP_IMAGE_SCALE = 25;
 const MIN_IMAGE_SCALE = 25;
 const MAX_IMAGE_SCALE = 100;
 
+const EFFECTS = {
+  CHROME: 'effect-chrome',
+  SEPIA: 'effect-sepia',
+  MARVIN: 'effect-marvin',
+  PHOBOS: 'effect-phobos',
+  HEAT: 'effect-heat'
+};
 
 const uploadFormNode = document.querySelector('.img-upload__form');
 const imageEditFormNode = document.querySelector('.img-upload__overlay');
@@ -20,7 +27,7 @@ const scaleControlSmallerNode = uploadFormNode.querySelector('.scale__control--s
 const scaleControlBiggerNode = uploadFormNode.querySelector('.scale__control--bigger');
 const scaleControlValueNode = uploadFormNode.querySelector('.scale__control--value');
 const imgUploadEffectsNode = uploadFormNode.querySelector('.img-upload__effects');
-const imgUploadPreview = uploadFormNode.querySelector('.img-upload__preview');
+const imgUploadPreviewNode = uploadFormNode.querySelector('.img-upload__preview');
 
 
 let isCommentFieldOnFocus = false;
@@ -63,53 +70,53 @@ const onScaleControlButtons = (evt) => {
     }
   }
   scaleControlValueNode.value = `${currentValue}%`;
-  imgUploadPreview.style.transform = `scale(${currentValue / 100})`;
+  imgUploadPreviewNode.style.transform = `scale(${currentValue / MAX_IMAGE_SCALE})`;
 };
 
 const onImageEffectButtons = (evt) => {
   if(evt.target.matches('input[type = "radio"]')){
-    imgUploadPreview.classList.remove('effects__preview--chrome', 'effects__preview--sepia', 'effects__preview--marvin', 'effects__preview--phobos', 'effects__preview--heat');
-    imgUploadPreview.style.removeProperty('filter');
+    imgUploadPreviewNode.classList.remove('effects__preview--chrome', 'effects__preview--sepia', 'effects__preview--marvin', 'effects__preview--phobos', 'effects__preview--heat');
+    imgUploadPreviewNode.style.removeProperty('filter');
     effectLevelSliderNode.classList.remove('hidden');
     switch(evt.target.id) {
-      case 'effect-chrome':
+      case EFFECTS.CHROME:
         effectLevelSliderNode.noUiSlider.destroy();
         noUiSlider.create(effectLevelSliderNode, SLIDER_OPTIONS_FOR_CHROME);
-        imgUploadPreview.classList.add('effects__preview--chrome');
+        imgUploadPreviewNode.classList.add('effects__preview--chrome');
         effectLevelSliderNode.noUiSlider.on('update', () => {
-          imgUploadPreview.style.filter = `grayscale(${effectLevelSliderNode.noUiSlider.get()})`;
+          imgUploadPreviewNode.style.filter = `grayscale(${effectLevelSliderNode.noUiSlider.get()})`;
         });
         break;
-      case 'effect-sepia':
+      case EFFECTS.SEPIA:
         effectLevelSliderNode.noUiSlider.destroy();
         noUiSlider.create(effectLevelSliderNode, SLIDER_OPTIONS_FOR_SEPIA);
-        imgUploadPreview.classList.add('effects__preview--sepia');
+        imgUploadPreviewNode.classList.add('effects__preview--sepia');
         effectLevelSliderNode.noUiSlider.on('update', () => {
-          imgUploadPreview.style.filter = `sepia(${effectLevelSliderNode.noUiSlider.get()})`;
+          imgUploadPreviewNode.style.filter = `sepia(${effectLevelSliderNode.noUiSlider.get()})`;
         });
         break;
-      case 'effect-marvin':
+      case EFFECTS.MARVIN:
         effectLevelSliderNode.noUiSlider.destroy();
         noUiSlider.create(effectLevelSliderNode, SLIDER_OPTIONS_FOR_MARVIN);
-        imgUploadPreview.classList.add('effects__preview--marvin');
+        imgUploadPreviewNode.classList.add('effects__preview--marvin');
         effectLevelSliderNode.noUiSlider.on('update', () => {
-          imgUploadPreview.style.filter = `invert(${effectLevelSliderNode.noUiSlider.get()}%)`;
+          imgUploadPreviewNode.style.filter = `invert(${effectLevelSliderNode.noUiSlider.get()}%)`;
         });
         break;
-      case 'effect-phobos':
+      case EFFECTS.PHOBOS:
         effectLevelSliderNode.noUiSlider.destroy();
         noUiSlider.create(effectLevelSliderNode, SLIDER_OPTIONS_FOR_PHOBOS);
-        imgUploadPreview.classList.add('effects__preview--phobos');
+        imgUploadPreviewNode.classList.add('effects__preview--phobos');
         effectLevelSliderNode.noUiSlider.on('update', () => {
-          imgUploadPreview.style.filter = `blur(${effectLevelSliderNode.noUiSlider.get()}px)`;
+          imgUploadPreviewNode.style.filter = `blur(${effectLevelSliderNode.noUiSlider.get()}px)`;
         });
         break;
-      case 'effect-heat':
+      case EFFECTS.HEAT:
         effectLevelSliderNode.noUiSlider.destroy();
         noUiSlider.create(effectLevelSliderNode, SLIDER_OPTIONS_FOR_HEAT);
-        imgUploadPreview.classList.add('effects__preview--heat');
+        imgUploadPreviewNode.classList.add('effects__preview--heat');
         effectLevelSliderNode.noUiSlider.on('update', () => {
-          imgUploadPreview.style.filter = `brightness(${effectLevelSliderNode.noUiSlider.get()})`;
+          imgUploadPreviewNode.style.filter = `brightness(${effectLevelSliderNode.noUiSlider.get()})`;
         });
         break;
       default:

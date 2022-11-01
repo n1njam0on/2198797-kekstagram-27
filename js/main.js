@@ -1,6 +1,6 @@
 import './render.js';
-import {renderBigPicture} from './bigpicture.js';
-import {filllImgUploadForm} from './imgupload.js';
+import {renderBigPicture} from './big-picture.js';
+import {filllImgUploadForm} from './img-upload.js';
 
 
 const picturesContainerNode = document.querySelector('.pictures');
