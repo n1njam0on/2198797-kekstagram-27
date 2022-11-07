@@ -67,6 +67,7 @@ const getPhotoInfo = () => {
   };
 };
 
+
 export const CreateCardCollection = (number = PHOTOS_NUMBER) => (Array.from({length: number}, getPhotoInfo));
 
 

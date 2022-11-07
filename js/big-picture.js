@@ -2,6 +2,7 @@ import { similarCards } from './render.js';
 import { isEscapeKey } from './util.js';
 
 const NUMBER_UPLOADED_COMMENTS = 5;
+const PHOTO_ID_ADAPTER = 1;
 
 const bigPictureNode = document.querySelector('.big-picture');
 const closeButtonNode = bigPictureNode.querySelector('.big-picture__cancel');
@@ -62,7 +63,7 @@ const onBigPictureCloseButton = () => {
 
 export const renderBigPicture = (id) => {
   bigPictureNode.classList.remove('hidden');
-  const photoData = similarCards.find((element) => element.id === id);
+  const photoData = similarCards.find((element) => element.id === (id - PHOTO_ID_ADAPTER));
   tmpCommentsData = photoData.comments.slice(0);
   commentsCounter = 0;
 

@@ -1,7 +1,23 @@
-import './render.js';
 import {renderBigPicture} from './big-picture.js';
-import {filllImgUploadForm} from './img-upload.js';
+import {fillImgUploadForm, initUploadForm} from './img-upload.js';
+import {renderPhotos} from './render.js';
+import {getData} from './api.js';
 
+const errorElement = document.querySelector('#error').content.querySelector('section').cloneNode(true);
+
+const showAlertMessage = (message) =>{
+  errorElement.querySelector('.error__title').textContent = message;
+  const reloadButton = errorElement.querySelector('.error__button');
+  reloadButton.classList.add('hidden');
+  document.querySelector('body').appendChild(errorElement);
+};
+
+getData((photos) => {
+  renderPhotos(photos);
+},
+() => {
+  showAlertMessage('Не удалось загрузить данные от сервера');
+});
 
 const picturesContainerNode = document.querySelector('.pictures');
 
@@ -13,9 +29,11 @@ picturesContainerNode.addEventListener('click', (evt) => {
   }
 });
 
-
+initUploadForm();
 const uploadStartNode = document.querySelector('.img-upload__label ');
-
+const inputFileNode = document.querySelector('.img-upload__input');
 uploadStartNode.addEventListener('click', () => {
-  filllImgUploadForm();
+  inputFileNode .addEventListener('change', fillImgUploadForm);
 });
+
+
