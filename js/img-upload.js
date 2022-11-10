@@ -234,9 +234,9 @@ const initUploadForm = () => {
 };
 
 const fillImgUploadForm = () => {
-
+  const file = inputFileNode.files[0];
+  imgUploadPreviewNode.querySelector('img').src = URL.createObjectURL(file);
   imageEditFormNode.classList.remove('hidden');
-
   if(effectLevelSliderNode.noUiSlider){
     effectLevelSliderNode.noUiSlider.destroy();
   }
@@ -245,6 +245,7 @@ const fillImgUploadForm = () => {
   scaleControlValueNode.value = '100%';
 
   document.addEventListener('keydown', onImgUploadEscKeydown);
+
 };
 
 
