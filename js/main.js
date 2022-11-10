@@ -1,12 +1,15 @@
-import {showAlertMessage} from './util.js';
+import {showAlertMessage, debounce} from './util.js';
 import {renderBigPicture} from './big-picture.js';
 import {fillImgUploadForm, initUploadForm} from './img-upload.js';
-import {renderPhotos} from './render.js';
 import {getData} from './api.js';
+import {initDefaultFilter} from './image-filter.js';
+import {renderPhotos} from './render.js';
 
+const RERENDER_DELAY = 500;
 
 getData((photos) => {
   renderPhotos(photos);
+  initDefaultFilter(debounce(() => renderPhotos(photos), RERENDER_DELAY));
 },
 () => {
   showAlertMessage('Не удалось загрузить данные от сервера');
