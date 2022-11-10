@@ -27,7 +27,7 @@ export const createRandomIdFromRangeGenerator = (min, max) => {
   };
 };
 
-export const comparePhotos = (photoA, photoB) => photoB.likes - photoA.likes;
+export const comparePhotos = (photoA, photoB) => photoB.comments.length - photoA.comments.length;
 
 export const isEscapeKey = (evt) => evt.key === 'Escape';
 
