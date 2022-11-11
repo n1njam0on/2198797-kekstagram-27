@@ -16,12 +16,6 @@
     "eslint-config-htmlacademy": "6.0.0"
   },
   "license": "MIT",
-  "dependencies": {
-    "-": "^0.0.1",
-    "g": "^2.0.1",
-    "live": "^0.1.25-beta.0",
-    "server": "^1.0.37"
-  },
   "scripts": {
     "start": "browser-sync start --server --no-ui --files \"js/**/*.js\"",
     "lint": "eslint js/"
