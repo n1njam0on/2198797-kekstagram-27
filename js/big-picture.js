@@ -17,6 +17,7 @@ const uploadComments = () => {
   const picturesFragment = document.createDocumentFragment();
   for (let i = 0; i < NUMBER_UPLOADED_COMMENTS; i++){
     if (tmpCommentsData.length <= 0){
+      uploadButtonNode.classList.add('hidden');
       break;
     }
     const data = tmpCommentsData.pop();
@@ -63,6 +64,7 @@ const onBigPictureCloseButton = () => {
 
 export const renderBigPicture = (id) => {
   bigPictureNode.classList.remove('hidden');
+  uploadButtonNode.classList.remove('hidden');
   const photoData = getSimilarCards().find((element) => element.id === (id - PHOTO_ID_ADAPTER));
   tmpCommentsData = photoData.comments.slice(0);
   commentsCounter = 0;
