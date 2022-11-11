@@ -1,4 +1,4 @@
-import { similarCards } from './render.js';
+import { getSimilarCards } from './render.js';
 import { isEscapeKey } from './util.js';
 
 const NUMBER_UPLOADED_COMMENTS = 5;
@@ -17,6 +17,7 @@ const uploadComments = () => {
   const picturesFragment = document.createDocumentFragment();
   for (let i = 0; i < NUMBER_UPLOADED_COMMENTS; i++){
     if (tmpCommentsData.length <= 0){
+      uploadButtonNode.classList.add('hidden');
       break;
     }
     const data = tmpCommentsData.pop();
@@ -63,7 +64,8 @@ const onBigPictureCloseButton = () => {
 
 export const renderBigPicture = (id) => {
   bigPictureNode.classList.remove('hidden');
-  const photoData = similarCards.find((element) => element.id === (id - PHOTO_ID_ADAPTER));
+  uploadButtonNode.classList.remove('hidden');
+  const photoData = getSimilarCards().find((element) => element.id === (id - PHOTO_ID_ADAPTER));
   tmpCommentsData = photoData.comments.slice(0);
   commentsCounter = 0;
 

@@ -23,6 +23,7 @@ const uploadFormNode = document.querySelector('.img-upload__form');
 const imageEditFormNode = document.querySelector('.img-upload__overlay');
 const closeButtonNode = uploadFormNode.querySelector('.img-upload__cancel');
 const commentFieldNode = uploadFormNode.querySelector('.text__description');
+const hashtagFieldNode = uploadFormNode.querySelector('.text__hashtags');
 const inputFileNode = document.querySelector('.img-upload__input');
 const effectLevelSliderNode = uploadFormNode.querySelector('.effect-level__slider');
 const scaleControlSmallerNode = uploadFormNode.querySelector('.scale__control--smaller');
@@ -36,7 +37,7 @@ const successSendNode = document.querySelector('#success').content.querySelector
 const errorSendNode = document.querySelector('#error').content.querySelector('section');
 
 
-let isCommentFieldOnFocus = false;
+let isCommentHashtagFieldOnFocus = false;
 
 const pristine = new Pristine(uploadFormNode,{
   classTo: 'img-upload__field-wrapper',
@@ -48,18 +49,18 @@ const pristine = new Pristine(uploadFormNode,{
 
 const validCommentField = (value) => value.length <= COMMENT_MAX_LENGTH;
 
-pristine.addValidator(uploadFormNode.querySelector('.text__hashtags'),
+pristine.addValidator(hashtagFieldNode,
   validHashTag,
   `${HASHTAG_LENGTH_ERROR_MESSAGE}, ${HASHTAG_CONTENT_ERROR_MESSAGE}`, 1, false);
 
-pristine.addValidator(uploadFormNode.querySelector('.text__description'),
+pristine.addValidator(commentFieldNode,
   validCommentField,
   COMMENT_ERROR_MESSAGE, 2, false);
 
 
-const changeCommentFieldFocusStatus = () => {
-  isCommentFieldOnFocus = isCommentFieldOnFocus ? isCommentFieldOnFocus = false : isCommentFieldOnFocus = true;
-  return isCommentFieldOnFocus;
+const changeCommentHashtagFieldFocusStatus = () => {
+  isCommentHashtagFieldOnFocus = isCommentHashtagFieldOnFocus ? isCommentHashtagFieldOnFocus = false : isCommentHashtagFieldOnFocus = true;
+  return isCommentHashtagFieldOnFocus;
 };
 
 const onScaleControlButtons = (evt) => {
@@ -147,7 +148,7 @@ const closeUploadForm = () => {
 const onImgUploadEscKeydown = (evt) => {
   if(isEscapeKey(evt)){
     evt.preventDefault();
-    if(!isCommentFieldOnFocus){
+    if(!isCommentHashtagFieldOnFocus){
       inputFileNode.name = 'filename';
       document.removeEventListener('keydown', onImgUploadEscKeydown);
       closeUploadForm();
@@ -184,6 +185,17 @@ const initSuccessSendMessage = () => {
   successButton.addEventListener('click', () => {
     successSendNode.classList.add('hidden');
   });
+  document.addEventListener('keydown', (evt) => {
+    if(isEscapeKey(evt)){
+      evt.preventDefault();
+      successSendNode.classList.add('hidden');
+    }
+  });
+  document.addEventListener('click', (evt) => {
+    if(!successSendNode.querySelector('div').contains(evt.target)){
+      successSendNode.classList.add('hidden');
+    }
+  });
 };
 
 const initErrorUploadMessage = () =>{
@@ -192,6 +204,17 @@ const initErrorUploadMessage = () =>{
   const reloadButton = errorSendNode.querySelector('button');
   reloadButton.addEventListener('click', () => {
     errorSendNode.classList.add('hidden');
+  });
+  document.addEventListener('keydown', (evt) => {
+    if(isEscapeKey(evt)){
+      evt.preventDefault();
+      errorSendNode.classList.add('hidden');
+    }
+  });
+  document.addEventListener('click', (evt) => {
+    if(!errorSendNode.querySelector('div').contains(evt.target)){
+      errorSendNode.classList.add('hidden');
+    }
   });
 };
 
@@ -226,14 +249,18 @@ const initUploadForm = () => {
   scaleControlSmallerNode.addEventListener('click', onScaleControlButtons);
   scaleControlBiggerNode.addEventListener('click', onScaleControlButtons);
 
-  commentFieldNode.addEventListener('focus', changeCommentFieldFocusStatus);
-  commentFieldNode.addEventListener('blur', changeCommentFieldFocusStatus);
+  commentFieldNode.addEventListener('focus', changeCommentHashtagFieldFocusStatus);
+  commentFieldNode.addEventListener('blur', changeCommentHashtagFieldFocusStatus);
+
+  hashtagFieldNode.addEventListener('focus', changeCommentHashtagFieldFocusStatus);
+  hashtagFieldNode.addEventListener('blur', changeCommentHashtagFieldFocusStatus);
 
   closeButtonNode.addEventListener('click', onImgUploadCloseButton);
   document.addEventListener('keydown', onImgUploadEscKeydown);
 };
 
 const fillImgUploadForm = () => {
+  document.querySelector('body').classList.add('modal-open');
   const file = inputFileNode.files[0];
   imgUploadPreviewNode.querySelector('img').src = URL.createObjectURL(file);
   imageEditFormNode.classList.remove('hidden');

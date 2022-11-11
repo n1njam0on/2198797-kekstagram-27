@@ -10,8 +10,9 @@ const PHOTO_FILTERS = {
 
 const userPictureListNode = document.querySelector('.pictures');
 const similarCardTemplateNode = document.querySelector('#picture').content.querySelector('a');
-export let similarCards = [];
+let similarCards = [];
 
+export const getSimilarCards = () => similarCards;
 
 const getFilteredPhoto = (photos) => {
   const randomPhotos = photos.slice();
