@@ -39,7 +39,7 @@ const uploadComments = () => {
     picturesFragment.appendChild(newLi);
     commentsCounter++;
   }
-  bigPictureNode.querySelector('.social__comment-count').innerHTML = `${commentsCounter} из <span class="comments-count">${commentsNumber}</span> комментариев`;
+  bigPictureNode.querySelector('.social__comment-count').textContent = `${commentsCounter} из ${commentsNumber} комментариев`;
   commentsBlockNode.appendChild(picturesFragment);
 };
 
