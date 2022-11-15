@@ -1,4 +1,4 @@
-import { isEscapeKey, validHashTag, initErrorUploadMessage, initSuccessSendMessage, showSuccessSendMessage, showErrorUploadMessage} from './util.js';
+import { isEscapeKey, validationHashTag, initErrorUploadMessage, initSuccessSendMessage, showSuccessSendMessage, showErrorUploadMessage} from './util.js';
 import { SLIDER_OPTIONS_FOR_CHROME, SLIDER_OPTIONS_FOR_SEPIA, SLIDER_OPTIONS_FOR_MARVIN, SLIDER_OPTIONS_FOR_PHOBOS, SLIDER_OPTIONS_FOR_HEAT } from './slider-options.js';
 import { sendData } from './api.js';
 
@@ -43,14 +43,14 @@ const pristine = new Pristine(uploadFormNode,{
   errorTextClass: 'img-upload__field-wrapper__error'
 });
 
-const validCommentField = (value) => value.length <= COMMENT_MAX_LENGTH;
+const validationCommentField = (value) => value.length <= COMMENT_MAX_LENGTH;
 
 pristine.addValidator(hashtagFieldNode,
-  validHashTag,
+  validationHashTag,
   `${HASHTAG_LENGTH_ERROR_MESSAGE}, ${HASHTAG_CONTENT_ERROR_MESSAGE}`, 1, false);
 
 pristine.addValidator(commentFieldNode,
-  validCommentField,
+  validationCommentField,
   COMMENT_ERROR_MESSAGE, 2, false);
 
 
