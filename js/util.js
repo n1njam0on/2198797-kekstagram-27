@@ -37,7 +37,7 @@ export const comparePhotos = (photoA, photoB) => photoB.comments.length - photoA
 
 export const isEscapeKey = (evt) => evt.key === 'Escape';
 
-export const validHashTag = (value) => {
+export const validationHashTag = (value) => {
   const hashtagsList = value.split(/\s+/);
   const hashtagCondition = /^#[a-zа-я0-9]{1,19}$/i;
   if(hashtagsList[0] === '' && hashtagsList.length === HASHTAG_LENGTH_FOR_DEFAULT_VALUE){
