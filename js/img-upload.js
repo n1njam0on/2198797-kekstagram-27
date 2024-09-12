@@ -1,4 +1,4 @@
-import { isEscapeKey, validHashTag} from './util.js';
+import { isEscapeKey, validationHashTag, initErrorUploadMessage, initSuccessSendMessage, showSuccessSendMessage, showErrorUploadMessage} from './util.js';
 import { SLIDER_OPTIONS_FOR_CHROME, SLIDER_OPTIONS_FOR_SEPIA, SLIDER_OPTIONS_FOR_MARVIN, SLIDER_OPTIONS_FOR_PHOBOS, SLIDER_OPTIONS_FOR_HEAT } from './slider-options.js';
 import { sendData } from './api.js';
 
@@ -18,7 +18,6 @@ const EFFECTS = {
   HEAT: 'effect-heat'
 };
 
-const bodyNode = document.querySelector('body');
 const uploadFormNode = document.querySelector('.img-upload__form');
 const imageEditFormNode = document.querySelector('.img-upload__overlay');
 const closeButtonNode = uploadFormNode.querySelector('.img-upload__cancel');
@@ -33,9 +32,6 @@ const imgUploadEffectsNode = uploadFormNode.querySelector('.img-upload__effects'
 const imgUploadPreviewNode = uploadFormNode.querySelector('.img-upload__preview');
 const effectLeveelValueNode = uploadFormNode.querySelector('.effect-level__value');
 const submitButtonNode = uploadFormNode.querySelector('.img-upload__submit');
-const successSendNode = document.querySelector('#success').content.querySelector('section');
-const errorSendNode = document.querySelector('#error').content.querySelector('section');
-
 
 let isCommentHashtagFieldOnFocus = false;
 
@@ -47,14 +43,14 @@ const pristine = new Pristine(uploadFormNode,{
   errorTextClass: 'img-upload__field-wrapper__error'
 });
 
-const validCommentField = (value) => value.length <= COMMENT_MAX_LENGTH;
+const validationCommentField = (value) => value.length <= COMMENT_MAX_LENGTH;
 
 pristine.addValidator(hashtagFieldNode,
-  validHashTag,
+  validationHashTag,
   `${HASHTAG_LENGTH_ERROR_MESSAGE}, ${HASHTAG_CONTENT_ERROR_MESSAGE}`, 1, false);
 
 pristine.addValidator(commentFieldNode,
-  validCommentField,
+  validationCommentField,
   COMMENT_ERROR_MESSAGE, 2, false);
 
 
@@ -169,55 +165,6 @@ const unblockSubmitButton = () => {
   submitButtonNode.disable = true;
   submitButtonNode.textContent = 'Опубликовать';
 };
-
-const showSuccessSendMessage = () => {
-  successSendNode.classList.remove('hidden');
-};
-
-const showErrorUploadMessage = () => {
-  errorSendNode.classList.remove('hidden');
-};
-
-const initSuccessSendMessage = () => {
-  bodyNode.appendChild(successSendNode);
-  successSendNode.classList.add('hidden');
-  const successButton = successSendNode.querySelector('button');
-  successButton.addEventListener('click', () => {
-    successSendNode.classList.add('hidden');
-  });
-  document.addEventListener('keydown', (evt) => {
-    if(isEscapeKey(evt)){
-      evt.preventDefault();
-      successSendNode.classList.add('hidden');
-    }
-  });
-  document.addEventListener('click', (evt) => {
-    if(!successSendNode.querySelector('div').contains(evt.target)){
-      successSendNode.classList.add('hidden');
-    }
-  });
-};
-
-const initErrorUploadMessage = () =>{
-  bodyNode.appendChild(errorSendNode);
-  errorSendNode.classList.add('hidden');
-  const reloadButton = errorSendNode.querySelector('button');
-  reloadButton.addEventListener('click', () => {
-    errorSendNode.classList.add('hidden');
-  });
-  document.addEventListener('keydown', (evt) => {
-    if(isEscapeKey(evt)){
-      evt.preventDefault();
-      errorSendNode.classList.add('hidden');
-    }
-  });
-  document.addEventListener('click', (evt) => {
-    if(!errorSendNode.querySelector('div').contains(evt.target)){
-      errorSendNode.classList.add('hidden');
-    }
-  });
-};
-
 
 const initUploadForm = () => {
   uploadFormNode.addEventListener('submit', (evt) => {

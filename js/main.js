@@ -20,8 +20,8 @@ const picturesContainerNode = document.querySelector('.pictures');
 picturesContainerNode.addEventListener('click', (evt) => {
   if(evt.target.className === 'picture__img'){
     const strArray = evt.target.src.split('/');
-    const iden = strArray[strArray.length - 1 ].split('.');
-    renderBigPicture(+iden[0]);
+    const photoId = strArray[strArray.length - 1 ].split('.');
+    renderBigPicture(+photoId[0]);
   }
 });
 

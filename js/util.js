@@ -1,6 +1,10 @@
 const HASHTAG_LENGTH_FOR_DEFAULT_VALUE = 1;
 const MAX_HASHTAGS_AMOUNT = 5;
+
+const bodyNode = document.querySelector('body');
 const errorNode = document.querySelector('#error').content.querySelector('section').cloneNode(true);
+const successSendNode = document.querySelector('#success').content.querySelector('section');
+const errorSendNode = document.querySelector('#error').content.querySelector('section');
 
 export const getRandomPositiveInteger = (a, b) => {
   if (a < 0 || b < 0) {
@@ -33,7 +37,7 @@ export const comparePhotos = (photoA, photoB) => photoB.comments.length - photoA
 
 export const isEscapeKey = (evt) => evt.key === 'Escape';
 
-export const validHashTag = (value) => {
+export const validationHashTag = (value) => {
   const hashtagsList = value.split(/\s+/);
   const hashtagCondition = /^#[a-zа-я0-9]{1,19}$/i;
   if(hashtagsList[0] === '' && hashtagsList.length === HASHTAG_LENGTH_FOR_DEFAULT_VALUE){
@@ -68,4 +72,53 @@ export const debounce = (callback, timeoutDelay) => {
     clearTimeout(timeoutId);
     timeoutId = setTimeout(() => callback.apply(this, rest), timeoutDelay);
   };
+};
+
+export const initSuccessSendMessage = () => {
+  bodyNode.appendChild(successSendNode);
+  successSendNode.classList.add('hidden');
+  const successButton = successSendNode.querySelector('button');
+  successButton.addEventListener('click', () => {
+    successSendNode.classList.add('hidden');
+  });
+  document.addEventListener('keydown', (evt) => {
+    if(isEscapeKey(evt)){
+      evt.preventDefault();
+      successSendNode.classList.add('hidden');
+    }
+  });
+  document.addEventListener('click', (evt) => {
+    if(!successSendNode.querySelector('div').contains(evt.target)){
+      successSendNode.classList.add('hidden');
+    }
+  });
+};
+
+export const initErrorUploadMessage = () =>{
+  bodyNode.appendChild(errorSendNode);
+  errorSendNode.classList.add('hidden');
+  const reloadButton = errorSendNode.querySelector('button');
+  reloadButton.addEventListener('click', () => {
+    errorSendNode.classList.add('hidden');
+  });
+  document.addEventListener('keydown', (evt) => {
+    if(isEscapeKey(evt)){
+      evt.preventDefault();
+      errorSendNode.classList.add('hidden');
+    }
+  });
+  document.addEventListener('click', (evt) => {
+    if(!errorSendNode.querySelector('div').contains(evt.target)){
+      errorSendNode.classList.add('hidden');
+    }
+  });
+};
+
+
+export const showSuccessSendMessage = () => {
+  successSendNode.classList.remove('hidden');
+};
+
+export const showErrorUploadMessage = () => {
+  errorSendNode.classList.remove('hidden');
 };
